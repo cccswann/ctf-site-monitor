@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import difflib
 import time
 from datetime import datetime
+import smtplib
 
 # Set URL 
 url = 'https://ctf.mlh-fellowship.space/challenges'
@@ -11,6 +12,7 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleW
 
 PrevVersion = ''
 FirstRun = True
+
 while True:
 
     # download the page
@@ -30,6 +32,21 @@ while True:
             PrevVersion = soup
             print ("Start Monitoring "+url+" "+datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         else:
+            # create email message
+            msg = "New content found at "+url+" "+datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            fromaddr = "cccswann@gmail.com"
+            toaddr = ['cccswann@gmail.com']
+
+            # setup server
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            # add account login name and password
+            # server.login("YOUR_EMAIL","YOUR PASSWORD")
+
+            #send email
+            server.sendmail(fromaddr, toaddrs, msg)
+            server.quit()
+
             print("Changes detected at: "+url+" "+datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             OldVersion = PrevVersion.splitlines()
             NewVersion = soup.splitlines()
