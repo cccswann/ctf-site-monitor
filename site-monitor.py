@@ -44,7 +44,7 @@ while True:
             # server.login("YOUR_EMAIL","YOUR PASSWORD")
 
             #send email
-            server.sendmail(fromaddr, toaddrs, msg)
+            server.sendmail(fromaddr, toaddr, msg)
             server.quit()
 
             print("Changes detected at: "+url+" "+datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
